@@ -4,6 +4,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.26228.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timera", "Timera\Timera.csproj", "{2BE800F1-0D4A-45C5-898D-F260279195D6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A0A4E72C-3F62-466C-8500-CC66B560344C} = {A0A4E72C-3F62-466C-8500-CC66B560344C}
+		{39971777-9250-44E3-9DDB-9D806DDDCF7E} = {39971777-9250-44E3-9DDB-9D806DDDCF7E}
+		{7ADB59FB-9319-4D5C-ABC0-069EF1753F23} = {7ADB59FB-9319-4D5C-ABC0-069EF1753F23}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeraTests", "TimeraTests\TimeraTests.csproj", "{AC68066A-76ED-4D19-832E-8BF5481666C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.Base", "Provider.Base\Provider.Base.csproj", "{39971777-9250-44E3-9DDB-9D806DDDCF7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.Bitbucket", "Provider.Bitbucket\Provider.Bitbucket.csproj", "{7ADB59FB-9319-4D5C-ABC0-069EF1753F23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Provider.Github", "Provider.Github\Provider.Github.csproj", "{A0A4E72C-3F62-466C-8500-CC66B560344C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +28,22 @@ Global
 		{2BE800F1-0D4A-45C5-898D-F260279195D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BE800F1-0D4A-45C5-898D-F260279195D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BE800F1-0D4A-45C5-898D-F260279195D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC68066A-76ED-4D19-832E-8BF5481666C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC68066A-76ED-4D19-832E-8BF5481666C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC68066A-76ED-4D19-832E-8BF5481666C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC68066A-76ED-4D19-832E-8BF5481666C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39971777-9250-44E3-9DDB-9D806DDDCF7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39971777-9250-44E3-9DDB-9D806DDDCF7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39971777-9250-44E3-9DDB-9D806DDDCF7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39971777-9250-44E3-9DDB-9D806DDDCF7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ADB59FB-9319-4D5C-ABC0-069EF1753F23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ADB59FB-9319-4D5C-ABC0-069EF1753F23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ADB59FB-9319-4D5C-ABC0-069EF1753F23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ADB59FB-9319-4D5C-ABC0-069EF1753F23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0A4E72C-3F62-466C-8500-CC66B560344C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0A4E72C-3F62-466C-8500-CC66B560344C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0A4E72C-3F62-466C-8500-CC66B560344C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0A4E72C-3F62-466C-8500-CC66B560344C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
