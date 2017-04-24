@@ -22,5 +22,11 @@ namespace Provider.Github
         public TokenForm() {
             InitializeComponent();
         }
+
+        private void testTokenButton_Click(object sender, RoutedEventArgs e) {
+            RestClient rest = new RestClient(githubToken.Text);
+
+            MessageBox.Show(rest.GetUser().ToString());
+        }
     }
 }

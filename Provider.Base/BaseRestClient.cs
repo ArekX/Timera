@@ -1,15 +1,17 @@
 ﻿using RestSharp;
+using System;
 using System.Collections;
+using System.Diagnostics;
 
 namespace Provider.Base
 {
-    public abstract class RestClient
+    public abstract class BaseRestClient
     {
         protected DataFormat format;
         protected string baseUri;
-        protected RestSharp.RestClient restClient;
+        protected RestClient restClient;
 
-        public RestClient(string baseUri, DataFormat format) {
+        public BaseRestClient(string baseUri, DataFormat format) {
             this.baseUri = baseUri;
             this.format = format;
 
@@ -29,7 +31,7 @@ namespace Provider.Base
         }
 
         protected virtual void ProcessParameters(RestRequest request, object parameters) {
-            if (!(parameters is Hashtable)) {
+            if (parameters == null || !(parameters is Hashtable)) {
                 return;
             }
 
@@ -40,10 +42,15 @@ namespace Provider.Base
             }
         }
 
-        public virtual BaseDAO Execute(Method method, string resource, object parameters, BaseDAO body = null) {
+        public virtual T Execute<T>(Method method, string resource, object parameters = null, BaseDAO body = null) where T : BaseDAO, new() {
             RestRequest request = GetRequest(method, resource, parameters, body);
+            request.RequestFormat = this.format;
 
-            IRestResponse<BaseDAO> response = restClient.Execute<BaseDAO>(request);
+            Debug.WriteLine("Sending request to: " + baseUri + resource);
+            IRestResponse<T> response = restClient.Execute<T>(request);
+     
+            Debug.WriteLine("Got Content " + response.Content);
+
             return response.Data;
         }
 
@@ -53,20 +60,20 @@ namespace Provider.Base
             return restClient.Execute(request);
         }
 
-        public T ExecuteGET<T>(string resource, object parameters) where T : BaseDAO {
-            return (T)Execute(Method.GET, resource, parameters);
+        public T ExecuteGET<T>(string resource, object parameters = null) where T : BaseDAO, new() {
+            return Execute<T>(Method.GET, resource, parameters);
         }
 
-        public T ExecutePOST<T>(string resource, object parameters, BaseDAO body = null) where T : BaseDAO {
-            return (T)Execute(Method.POST, resource, parameters, body);
+        public T ExecutePOST<T>(string resource, object parameters, T body = null) where T : BaseDAO, new() {
+            return Execute<T>(Method.POST, resource, parameters, body);
         }
 
-        public T ExecutePUT<T>(string resource, object parameters, BaseDAO body = null) where T : BaseDAO {
-            return (T)Execute(Method.PUT, resource, parameters, body);
+        public T ExecutePUT<T>(string resource, object parameters, T body = null) where T : BaseDAO, new() {
+            return Execute<T>(Method.PUT, resource, parameters, body);
         }
 
-        public T ExecuteDELETE<T>(string resource, object parameters) where T : BaseDAO {
-            return (T)Execute(Method.DELETE, resource, parameters);
+        public T ExecuteDELETE<T>(string resource, object parameters = null) where T : BaseDAO, new() {
+            return Execute<T>(Method.DELETE, resource, parameters);
         }
     }
 }
