@@ -58,6 +58,7 @@
     </Page>
     <Compile Include="DAO\User.cs" />
     <Compile Include="Provider.cs" />
+    <Compile Include="ProviderSettings.cs" />
     <Compile Include="RestClient.cs" />
     <Compile Include="TokenForm.xaml.cs">
       <DependentUpon>TokenForm.xaml</DependentUpon>

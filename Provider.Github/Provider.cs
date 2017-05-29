@@ -5,13 +5,16 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace Provider.Github
 {
     public class Provider : BaseProvider
     {
-        public Provider() {
+        public ProviderSettings settings;
 
+        public Provider() {
+            settings = new ProviderSettings();
         }
 
         public override string Name {
@@ -33,6 +36,8 @@ namespace Provider.Github
         public override void Activate() {
             TokenForm form = new TokenForm();
 
+            form.Tag = this;
+
             form.ShowDialog();
             Debug.WriteLine("TEST!");
         }
@@ -40,5 +45,14 @@ namespace Provider.Github
         public override void Deactivate() {
             throw new NotImplementedException();
         }
+
+        public override Hashtable GetStoreableSettings() {
+            return settings.GetSettings();
+        }
+
+        public override void LoadSettings(Hashtable settings) {
+            this.settings.SetSettings(settings);
+        }
+        
     }
 }

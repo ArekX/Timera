@@ -12,11 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System;
-using System.IO;
-using System.Reflection;
-using System.Diagnostics;
-using Provider.Base;
+using Timera.Provider;
 
 namespace Timera
 {
@@ -29,31 +25,7 @@ namespace Timera
         {
             InitializeComponent();
 
-
-            string[] paths = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + @"\Providers", "Provider.*.dll");
-
-            foreach(string path in paths) {
-                if (path.EndsWith("Provider.Base.dll")) {
-                    continue;
-                }
-
-                Assembly a = Assembly.LoadFrom(path);
-
-                Debug.WriteLine("Trying to get:" + a.GetName().Name + ".Provider");
-
-                Type myType = a.GetType(a.GetName().Name + ".Provider");
-
-                if (myType == null) {
-                    Debug.WriteLine("- Has no Provider class. Skipping.");
-                    continue;
-                }
-
-                BaseProvider obj = (BaseProvider)Activator.CreateInstance(myType);
-
-                Debug.WriteLine("Loaded Provider: " + obj.Name);
-
-                obj.Activate();
-            }
+            Loader.Initialize(AppDomain.CurrentDomain.BaseDirectory + @"\Providers");
         }
     }
 }

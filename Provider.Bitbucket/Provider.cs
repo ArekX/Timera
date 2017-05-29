@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace Provider.Bitbucket
 {
@@ -35,6 +36,14 @@ namespace Provider.Bitbucket
         }
 
         public override void Deactivate() {
+            throw new NotImplementedException();
+        }
+
+        public override Hashtable GetStoreableSettings() {
+            return null;
+        }
+
+        public override void LoadSettings(Hashtable settings) {
             throw new NotImplementedException();
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace Provider.Base
 {
@@ -17,5 +18,9 @@ namespace Provider.Base
         public abstract void ExecuteAction(BaseAction action);
 
         public abstract void ExecuteActionFlow(BaseActionFlow flow);
+
+        public abstract Hashtable GetStoreableSettings();
+
+        public abstract void LoadSettings(Hashtable settings);
     }
 }

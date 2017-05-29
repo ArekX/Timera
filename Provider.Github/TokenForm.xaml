@@ -10,9 +10,8 @@
         <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="454"><Run Text="Please enter your Github Personal Token in order to allow access to repositories and issue tracking. This app will post and change issues (if you choose those actions) so write privileges should be allowed."/><LineBreak/><Run/></TextBlock>
         <Label x:Name="label" Content="Github Token:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,79,0,0"/>
         <TextBox x:Name="githubToken" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="454" Margin="10,105,0,0"/>
-        <Button x:Name="okButton" Content="OK" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="389,147,0,0" Style="{DynamicResource PrimaryButton}"/>
+        <Button x:Name="okButton" Content="OK" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="389,147,0,0" Style="{DynamicResource PrimaryButton}" Click="okButton_Click"/>
         <Button x:Name="testTokenButton" Content="Test Token" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,147,0,0" Click="testTokenButton_Click"/>
         <Button x:Name="cancelButton" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="301,147,0,0"/>
-
     </Grid>
 </Window>
