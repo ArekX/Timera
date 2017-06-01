@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Provider.Base.Storeable
 {
@@ -21,22 +19,28 @@ namespace Provider.Base.Storeable
             Hashtable settings = new Hashtable();
             
             IEnumerable<PropertyAttribute> results = GetStoreableAttributes();
-            Type t = GetType();
+            Type klass = GetType();
             foreach (PropertyAttribute s in results) {
-                settings.Add(s.SettingsAttribute.Name, t.GetProperty(s.Property.Name).GetValue(this));
+                string storeWithKey = s.SettingsAttribute.AsName != null ? s.SettingsAttribute.AsName : s.Property.Name;
+                settings.Add(storeWithKey, klass.GetProperty(s.Property.Name).GetValue(this));
             }
 
             return settings;
         }
 
         public void SetSettings(Hashtable settings) {
-            Type t = GetType();
+            Type klass = GetType();
             List<PropertyAttribute> results = GetStoreableAttributes();
 
             foreach (string key in settings.Keys) {
                 var value = settings[key];
-                PropertyAttribute setting = (from result in results where result.SettingsAttribute.Name == key select result as PropertyAttribute).Single();
-                t.GetProperty(setting.Property.Name).SetValue(this, value);
+                PropertyAttribute setting = (from result in results
+                                             where 
+                                                (result.SettingsAttribute.AsName != null && result.SettingsAttribute.AsName == key) ||
+                                                (result.Property.Name == key)
+                                             select result as PropertyAttribute).Single();
+
+                klass.GetProperty(setting.Property.Name).SetValue(this, value);
             }
         }
 
@@ -46,11 +50,10 @@ namespace Provider.Base.Storeable
 
             List<PropertyAttribute> allAttributes = new List<PropertyAttribute>();
             foreach(PropertyInfo prop in properties) {
-                StoreableSetting[] attributes = (StoreableSetting[])Attribute.GetCustomAttributes(prop, typeof(StoreableSetting));
-
-                foreach(StoreableSetting attribute in attributes) {
-                    allAttributes.Add(new PropertyAttribute() { Property = prop, SettingsAttribute = attribute });
-                }
+                allAttributes.AddRange(
+                  (from attribute in (StoreableSetting[])Attribute.GetCustomAttributes(prop, typeof(StoreableSetting))
+                   select new PropertyAttribute() { Property = prop, SettingsAttribute = attribute }).ToList()
+               );
             }
 
             return allAttributes;

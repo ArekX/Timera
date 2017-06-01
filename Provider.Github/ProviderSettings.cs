@@ -9,7 +9,7 @@ namespace Provider.Github
 {
     public class ProviderSettings : BaseSettings
     {
-        [StoreableSetting("api-key")]
+        [StoreableSetting(AsName = "api-key")]
         public string ApiKey { get; set; }
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Provider.Base
+namespace Provider.Base.REST
 {
-    public class BaseDAO
+    public interface IGenericRestResponse : RestSharp.IRestResponse
     {
     }
 }

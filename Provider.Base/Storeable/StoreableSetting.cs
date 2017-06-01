@@ -3,15 +3,10 @@ using System.Runtime.CompilerServices;
 
 namespace Provider.Base.Storeable
 {
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class StoreableSetting : Attribute
     {
-        protected string name;
-
-        public string Name { get { return name; } }
+        public string AsName { get; set; }
         
-
-        public StoreableSetting([CallerMemberName] string name = null) {
-            this.name = name;
-        } 
     }
 }

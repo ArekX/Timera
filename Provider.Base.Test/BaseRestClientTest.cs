@@ -1,15 +1,13 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace TimeraTests
+namespace Provider.Base.Test
 {
     [TestClass]
-    public class UnitTest1
+    public class BaseRestClientTest
     {
         [TestMethod]
-        public void TestMethod1()
-        {
-            
+        public void TestMethod1() {
         }
     }
 }

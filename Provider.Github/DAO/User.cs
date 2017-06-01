@@ -1,4 +1,5 @@
 ﻿using Provider.Base;
+using Provider.Base.REST;
 using RestSharp.Deserializers;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Provider.Github.DAO
 {
-    public class User : BaseDAO
+    public class User : RestObject
     {
         [DeserializeAs(Name = "id")]
         public int Id { get; set; }

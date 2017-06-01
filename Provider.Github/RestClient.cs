@@ -1,12 +1,7 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Provider.Base;
-using RestSharp;
+﻿using RestSharp;
 using Provider.Github.DAO;
+using Provider.Base.REST;
+using Provider.Base.REST.Enums;
 
 namespace Provider.Github
 {
@@ -14,11 +9,11 @@ namespace Provider.Github
     {
         public string token;
 
-        public RestClient(string token) : base("https://api.github.com", DataFormat.Json) {
+        public RestClient(string token) : base("https://api.github.com", RestFormat.JSON) {
             this.token = token;
         }
 
-        protected override RestRequest GetRequest(Method method, string resource, object parameters, BaseDAO body = null) {
+        protected override RestRequest GetRequest(RequestMethod method, string resource, object parameters, RestObject body = null) {
             RestRequest request = base.GetRequest(method, resource, parameters, body);
 
             request.AddHeader("Authorization", "Bearer " + token);
