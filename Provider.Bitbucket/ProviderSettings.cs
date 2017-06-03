@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.Reflection;
 
-namespace Provider.Github
+namespace Provider.Bitbucket
 {
     [Serializable()]
     public class ProviderSettings : BaseSettings
@@ -16,9 +16,6 @@ namespace Provider.Github
 
         public ProviderSettings(SerializationInfo info, StreamingContext context) : base(info, context) {
         }
-
-        [StoreableSetting(AsName = "api-key")]
-        public string ApiKey { get; set; }
 
         public override ContainerSerializationBinder GetSerializationBinder() {
             return new ContainerSerializationBinder(Assembly.GetExecutingAssembly());

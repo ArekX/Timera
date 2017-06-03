@@ -1,4 +1,5 @@
 ﻿using Provider.Base;
+using Provider.Base.Storeable;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -32,8 +33,11 @@ namespace Timera.Provider
 
                 Debug.WriteLine("Loaded Provider: " + obj.Name);
 
+                obj.SetEncryptionKey("KEY!");
+
+                obj.LoadSettings(@"e:\test-" + a.GetName().Name + ".txt");
                 obj.Activate();
-                Debug.WriteLine(obj.GetStoreableSettings());
+                obj.SaveSettings(@"e:\test-" + a.GetName().Name + ".txt");
             }
         }
         

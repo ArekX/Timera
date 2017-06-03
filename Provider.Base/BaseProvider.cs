@@ -1,10 +1,19 @@
-﻿using System.Collections;
+﻿using Provider.Base.Storeable;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Provider.Base
 {
     public abstract class BaseProvider
     {
+        protected string encryptionKey;
+
         public virtual string Name {
             get { return "Unknown Provider"; }
         }
@@ -19,8 +28,27 @@ namespace Provider.Base
 
         public abstract void ExecuteActionFlow(BaseActionFlow flow);
 
-        public abstract Hashtable GetStoreableSettings();
+        protected abstract SettingsFile GetSettingsFile(string fileName, string encryptionKey);
 
-        public abstract void LoadSettings(Hashtable settings);
+        public virtual void SetEncryptionKey(string key) {
+            encryptionKey = key;
+        }
+
+        public virtual void SaveSettings(string fileName) {
+
+            if (string.IsNullOrWhiteSpace(encryptionKey)) {
+                throw new Exception("Encryption key must set.");
+            }
+
+            GetSettingsFile(fileName, encryptionKey).Save();
+        }
+
+        public virtual void LoadSettings(string fileName) {
+            if (string.IsNullOrWhiteSpace(encryptionKey)) {
+                throw new Exception("Encryption key must set.");
+            }
+
+            GetSettingsFile(fileName, encryptionKey).Load();
+        }
     }
 }

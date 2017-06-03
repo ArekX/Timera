@@ -45,15 +45,13 @@ namespace Provider.Base.REST
             RestRequest request = GetRequest(method, resource, parameters, body);
             request.RequestFormat = (DataFormat)format;
             
-            ITemplateRestResponse<T> response = (ITemplateRestResponse<T>)restClient.Execute<T>(request);
-
-            return response.Data;
+            return restClient.Execute<T>(request).Data;
         }
 
-        public virtual IGenericRestResponse ExecuteRAW(RequestMethod method, string resource, object parameters, RestObject body = null) {
+        public virtual IRestResponse ExecuteRAW(RequestMethod method, string resource, object parameters, RestObject body = null) {
             RestRequest request = GetRequest(method, resource, parameters, body);
 
-            return (IGenericRestResponse)restClient.Execute(request);
+            return restClient.Execute(request);
         }
 
         public T ExecuteGET<T>(string resource, object parameters = null) where T : RestObject, new() {

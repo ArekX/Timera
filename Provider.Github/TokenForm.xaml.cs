@@ -19,14 +19,18 @@ namespace Provider.Github
     /// </summary>
     public partial class TokenForm : Window
     {
-        public TokenForm() {
+        protected Provider provider;
+
+        public TokenForm(Provider provider) {
             InitializeComponent();
+            this.provider = provider;
+            this.githubToken.Text = provider.Settings.ApiKey;
         }
 
         private void testTokenButton_Click(object sender, RoutedEventArgs e) {
             RestClient rest = new RestClient(githubToken.Text);
 
-            ((Provider)Tag).settings.ApiKey = githubToken.Text;
+            provider.Settings.ApiKey = githubToken.Text;
 
             MessageBox.Show(rest.GetUser().ToString());
         }

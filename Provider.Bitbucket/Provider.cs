@@ -2,13 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Collections;
+using Provider.Base.Storeable;
+using System.Reflection;
 
 namespace Provider.Bitbucket
 {
-    public class Provider : BaseProvider
-    {
-        public Provider() {
+    public class Provider : BaseProvider {
 
+        public ProviderSettings Settings { get { return (ProviderSettings)settingsFile.Settings; } }
+
+        protected SettingsFile settingsFile;
+
+        public Provider() {
+            settingsFile = new SettingsFile();
+            settingsFile.Settings = new ProviderSettings();
         }
 
         public override string Name {
@@ -35,12 +42,11 @@ namespace Provider.Bitbucket
             throw new NotImplementedException();
         }
 
-        public override Hashtable GetStoreableSettings() {
-            return null;
-        }
+        protected override SettingsFile GetSettingsFile(string fileName, string encryptionKey) {
+            settingsFile.FileName = fileName;
+            settingsFile.EncryptionKey = encryptionKey;
 
-        public override void LoadSettings(Hashtable settings) {
-            throw new NotImplementedException();
+            return settingsFile;
         }
     }
 }

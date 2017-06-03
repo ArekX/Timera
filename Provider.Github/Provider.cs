@@ -6,15 +6,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using Provider.Base.Storeable;
+using System.Reflection;
 
 namespace Provider.Github
 {
     public class Provider : BaseProvider
     {
-        public ProviderSettings settings;
+        public ProviderSettings Settings { get { return (ProviderSettings)settingsFile.Settings; } }
+
+        protected SettingsFile settingsFile;
 
         public Provider() {
-            settings = new ProviderSettings();
+            settingsFile = new SettingsFile();
+            settingsFile.Settings = new ProviderSettings();
         }
 
         public override string Name {
@@ -34,7 +39,7 @@ namespace Provider.Github
         }
 
         public override void Activate() {
-            TokenForm form = new TokenForm();
+            TokenForm form = new TokenForm(this);
 
             form.Tag = this;
 
@@ -46,13 +51,11 @@ namespace Provider.Github
             throw new NotImplementedException();
         }
 
-        public override Hashtable GetStoreableSettings() {
-            return settings.GetSettings();
-        }
+        protected override SettingsFile GetSettingsFile(string fileName, string encryptionKey) {
+            settingsFile.FileName = fileName;
+            settingsFile.EncryptionKey = encryptionKey;
 
-        public override void LoadSettings(Hashtable settings) {
-            this.settings.SetSettings(settings);
+            return settingsFile;
         }
-        
     }
 }
