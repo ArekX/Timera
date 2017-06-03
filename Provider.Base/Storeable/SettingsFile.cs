@@ -20,7 +20,10 @@ namespace Provider.Base.Storeable
 
             set {
                 settings = value;
-                SerializationBinder = value.GetSerializationBinder();
+
+                if (value != null) {
+                    SerializationBinder = value.GetSerializationBinder();
+                }
             }
         }
 
@@ -47,15 +50,20 @@ namespace Provider.Base.Storeable
             SHA256Managed hashstring = new SHA256Managed();
 
             encryption.Key = hashstring.ComputeHash(Encoding.UTF8.GetBytes(encryptionKey));
+            encryption.Padding = PaddingMode.Zeros;
         }
 
         public virtual void Save() {
 
             if (Settings == null) {
-                throw new Exception("Settings is not set!");
+                throw new Exception("Settings object is not set!");
             }
 
-            Stream stream = File.Open(FileName, FileMode.Create);
+            if (FileName == null) {
+                throw new Exception("Filename must be set.");
+            }
+
+            Stream stream = GetFileSaveStream();
             BinaryFormatter bformatter = GetBinaryFormatter();
 
             encryption.GenerateIV();
@@ -77,11 +85,19 @@ namespace Provider.Base.Storeable
             }
 
             memStream.Close();
-            stream.Close();
+            CloseFileStream(stream);
 
             if (OnDataSaved != null) {
                 OnDataSaved.Invoke();
             }
+        }
+
+        protected virtual void CloseFileStream(Stream stream) {
+            stream.Close();
+        }
+
+        protected virtual Stream GetFileSaveStream() {
+            return File.Open(FileName, FileMode.Create);
         }
 
         protected virtual CryptoStream GetEncryptionStream(MemoryStream memStream) {
@@ -106,13 +122,11 @@ namespace Provider.Base.Storeable
         }
 
         public virtual void Load() {
-            if (!File.Exists(FileName)) {
-                return;
-            }
+  
+            Stream stream = GetFileLoadStream();
 
-            Stream stream = File.Open(FileName, FileMode.Open);
-
-            if (!HasValidHeader(stream)) {
+            if (stream == null || !HasValidHeader(stream)) {
+                Settings = null;
                 return;
             }
 
@@ -120,18 +134,31 @@ namespace Provider.Base.Storeable
 
             MemoryStream memStream = ReadEncryptedPayload(stream);
 
-            using (CryptoStream decryptionStream = GetDecryptionStream(memStream)) {
-                BinaryFormatter bformatter = GetBinaryFormatter();
-                Settings = (BaseSettings)bformatter.Deserialize(decryptionStream);
-                decryptionStream.Close();
+            try {
+                using (CryptoStream decryptionStream = GetDecryptionStream(memStream)) {
+                    BinaryFormatter bformatter = GetBinaryFormatter();
+                    Settings = (BaseSettings)bformatter.Deserialize(decryptionStream);
+                    decryptionStream.Close();
+                }
+            } catch (Exception e) {
+                Settings = null;
+                return;
             }
 
             memStream.Close();
-            stream.Close();
+            CloseFileStream(stream);
 
             if (OnDataLoaded != null) {
                 OnDataLoaded.Invoke();
             }
+        }
+
+        protected virtual Stream GetFileLoadStream() {
+            if (!File.Exists(FileName)) {
+                return null;
+            }
+
+            return File.Open(FileName, FileMode.Open);
         }
 
         protected virtual CryptoStream GetDecryptionStream(Stream stream) {

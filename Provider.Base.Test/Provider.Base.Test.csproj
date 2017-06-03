@@ -48,8 +48,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseRestClientTest.cs" />
+    <Compile Include="SettingsFileTest.cs" />
+    <Compile Include="Fixtures\DefaultStoreableSettings.cs" />
     <Compile Include="Mocks\MockRestClient.cs" />
+    <Compile Include="Mocks\MockSettingsFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
