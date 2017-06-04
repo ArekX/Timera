@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Provider.Base.Helpers;
+using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
@@ -45,12 +46,10 @@ namespace Provider.Base.Storeable
         }
 
         protected virtual void InitializeEncryption(string encryptionKey) {
-            encryption = new RijndaelManaged();
-
-            SHA256Managed hashstring = new SHA256Managed();
-
-            encryption.Key = hashstring.ComputeHash(Encoding.UTF8.GetBytes(encryptionKey));
-            encryption.Padding = PaddingMode.Zeros;
+            encryption = new RijndaelManaged() {
+                Key = HashHelper.GetSHA256Bytes(encryptionKey),
+                Padding = PaddingMode.Zeros
+            };
         }
 
         public virtual void Save() {
@@ -122,11 +121,10 @@ namespace Provider.Base.Storeable
         }
 
         public virtual void Load() {
-  
+            Settings = null;
             Stream stream = GetFileLoadStream();
 
             if (stream == null || !HasValidHeader(stream)) {
-                Settings = null;
                 return;
             }
 
@@ -140,8 +138,7 @@ namespace Provider.Base.Storeable
                     Settings = (BaseSettings)bformatter.Deserialize(decryptionStream);
                     decryptionStream.Close();
                 }
-            } catch (Exception e) {
-                Settings = null;
+            } catch {
                 return;
             }
 

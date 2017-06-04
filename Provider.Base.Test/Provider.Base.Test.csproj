@@ -48,11 +48,15 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fixtures\SettingsParameters.cs" />
+    <Compile Include="Mocks\MockRestResponse.cs" />
+    <Compile Include="RestClientTest.cs" />
     <Compile Include="SettingsFileTest.cs" />
     <Compile Include="Fixtures\DefaultStoreableSettings.cs" />
     <Compile Include="Mocks\MockRestClient.cs" />
     <Compile Include="Mocks\MockSettingsFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

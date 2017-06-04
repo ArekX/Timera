@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Provider.Base.REST
+namespace Provider.Base.Test
 {
-    public abstract class RestObject
+    class RestClientTest
     {
-        public abstract string GetUniqueId();
     }
 }

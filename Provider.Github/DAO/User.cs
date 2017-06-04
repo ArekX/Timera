@@ -1,4 +1,5 @@
 ﻿using Provider.Base;
+using Provider.Base.Helpers;
 using Provider.Base.REST;
 using RestSharp.Deserializers;
 using System;
@@ -25,6 +26,10 @@ namespace Provider.Github.DAO
 
         [DeserializeAs(Name = "email")]
         public int Email { get; set; }
+
+        public override string GetUniqueId() {
+            return HashHelper.GetSHA256(ToString());
+        }
 
         public override string ToString() {
             return String.Format("[ID = {0}, Name = {1}, Login = {2}, Profile = {3}, Email = {4}",

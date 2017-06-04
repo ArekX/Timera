@@ -17,7 +17,7 @@ namespace Provider.Base.REST
             restClient = new RestClient(baseUri);
         }
 
-        protected virtual RestRequest GetRequest(RequestMethod method, string resource, object parameters, RestObject body = null) {
+        protected virtual RestRequest GetRequest(RequestMethod method, string resource, RestParams parameters, RestObject body = null) {
             RestRequest request = new RestRequest(resource, (Method)method);
 
             ProcessParameters(request, parameters);
@@ -29,60 +29,60 @@ namespace Provider.Base.REST
             return request;
         }
 
-        protected virtual void ProcessParameters(RestRequest request, object parameters) {
-            if (parameters == null || !(parameters is Hashtable)) {
+        protected virtual void ProcessParameters(RestRequest request, RestParams parameters) {
+            if (parameters == null) {
                 return;
             }
 
-            Hashtable paramList = (Hashtable)parameters;
+            Hashtable paramList = parameters.GetMap();
 
             foreach (string key in paramList.Keys) {
                 request.AddParameter(key, paramList[key]);
             }
         }
 
-        public virtual T Execute<T>(RequestMethod method, string resource, object parameters = null, RestObject body = null) where T : RestObject, new() {
+        public virtual T Execute<T>(RequestMethod method, string resource, RestParams parameters = null, RestObject body = null) where T : RestObject, new() {
             RestRequest request = GetRequest(method, resource, parameters, body);
             request.RequestFormat = (DataFormat)format;
             
             return restClient.Execute<T>(request).Data;
         }
 
-        public virtual IRestResponse ExecuteRAW(RequestMethod method, string resource, object parameters, RestObject body = null) {
+        public virtual RestResponse ExecuteRAW(RequestMethod method, string resource, RestParams parameters, RestObject body = null) {
             RestRequest request = GetRequest(method, resource, parameters, body);
 
-            return restClient.Execute(request);
+            return RestResponse.InitializeFromIResponse(restClient.Execute(request));
         }
 
-        public T ExecuteGET<T>(string resource, object parameters = null) where T : RestObject, new() {
+        public T ExecuteGET<T>(string resource, RestParams parameters = null) where T : RestObject, new() {
             return Execute<T>(RequestMethod.GET, resource, parameters);
         }
 
-        public T ExecutePOST<T>(string resource, object parameters, T body = null) where T : RestObject, new() {
+        public T ExecutePOST<T>(string resource, RestParams parameters, T body = null) where T : RestObject, new() {
             return Execute<T>(RequestMethod.POST, resource, parameters, body);
         }
 
-        public T ExecutePUT<T>(string resource, object parameters, T body = null) where T : RestObject, new() {
+        public T ExecutePUT<T>(string resource, RestParams parameters, T body = null) where T : RestObject, new() {
             return Execute<T>(RequestMethod.PUT, resource, parameters, body);
         }
 
-        public T ExecuteDELETE<T>(string resource, object parameters = null) where T : RestObject, new() {
+        public T ExecuteDELETE<T>(string resource, RestParams parameters = null) where T : RestObject, new() {
             return Execute<T>(RequestMethod.DELETE, resource, parameters);
         }
 
-        public T ExecuteOPTIONS<T>(string resource, object parameters = null) where T : RestObject, new() {
+        public T ExecuteOPTIONS<T>(string resource, RestParams parameters = null) where T : RestObject, new() {
             return Execute<T>(RequestMethod.OPTIONS, resource, parameters);
         }
 
-        public T ExecutePATCH<T>(string resource, object parameters = null) where T : RestObject, new() {
+        public T ExecutePATCH<T>(string resource, RestParams parameters = null) where T : RestObject, new() {
             return Execute<T>(RequestMethod.PATCH, resource, parameters);
         }
 
-        public T ExecuteMERGE<T>(string resource, object parameters = null) where T : RestObject, new() {
+        public T ExecuteMERGE<T>(string resource, RestParams parameters = null) where T : RestObject, new() {
             return Execute<T>(RequestMethod.MERGE, resource, parameters);
         }
 
-        public T ExecuteHEAD<T>(string resource, object parameters = null) where T : RestObject, new() {
+        public T ExecuteHEAD<T>(string resource, RestParams parameters = null) where T : RestObject, new() {
             return Execute<T>(RequestMethod.HEAD, resource, parameters);
         }
     }

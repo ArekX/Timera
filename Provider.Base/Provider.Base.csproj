@@ -50,11 +50,14 @@
   <ItemGroup>
     <Compile Include="BaseActionFlow.cs" />
     <Compile Include="BaseAction.cs" />
+    <Compile Include="Helpers\HashHelper.cs" />
+    <Compile Include="REST\RestResponse.cs" />
     <Compile Include="REST\RestObject.cs" />
     <Compile Include="BaseProvider.cs" />
     <Compile Include="REST\BaseRestClient.cs" />
     <Compile Include="REST\Enums\RequestMethod.cs" />
     <Compile Include="REST\Enums\DataFormat.cs" />
+    <Compile Include="REST\RestParams.cs" />
     <Compile Include="Storeable\BaseSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storeable\ContainerSerializationBinder.cs" />

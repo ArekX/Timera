@@ -23,7 +23,7 @@ namespace Provider.Base.Storeable
             IEnumerable<PropertyAttribute> results = GetStoreableAttributes();
             Type klass = GetType();
             foreach (PropertyAttribute s in results) {
-                string storeWithKey = s.SettingsAttribute.AsName != null ? s.SettingsAttribute.AsName : s.Property.Name;
+                string storeWithKey = s.SettingsAttribute.AsName ?? s.Property.Name;
                 settings.Add(storeWithKey, klass.GetProperty(s.Property.Name).GetValue(this));
             }
 
@@ -55,7 +55,7 @@ namespace Provider.Base.Storeable
                    select new PropertyAttribute() {
                        Property = prop,
                        SettingsAttribute = attribute,
-                       PropertyName = attribute.AsName != null ? attribute.AsName : prop.Name
+                       PropertyName = attribute.AsName ?? prop.Name
                    }).ToList()
                );
             }

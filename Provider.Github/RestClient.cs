@@ -13,7 +13,7 @@ namespace Provider.Github
             this.token = token;
         }
 
-        protected override RestRequest GetRequest(RequestMethod method, string resource, object parameters, RestObject body = null) {
+        protected override RestRequest GetRequest(RequestMethod method, string resource, RestParams parameters, RestObject body = null) {
             RestRequest request = base.GetRequest(method, resource, parameters, body);
 
             request.AddHeader("Authorization", "Bearer " + token);
