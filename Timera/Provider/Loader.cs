@@ -32,8 +32,6 @@ namespace Timera.Provider
    
                 Assembly a = Assembly.LoadFrom(path);
 
-                Debug.WriteLine("Trying to get:" + a.GetName().Name + ".Provider");
-
                 Type myType = a.GetType(a.GetName().Name + ".Provider");
 
                 if (myType == null) {
