@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Provider.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,41 @@ namespace Timera
             InitializeComponent();
 
             Loader.Initialize(AppDomain.CurrentDomain.BaseDirectory + @"\Providers");
+
+
+
+            foreach(BaseProvider provider in Loader.Providers) {
+                TextBlock tb = new TextBlock() {
+                    Text = provider.Name
+                };
+
+                CheckBox checkBox = new CheckBox();
+
+                checkBox.Unchecked += (object sender, RoutedEventArgs e) => {
+                    provider.Deactivate();
+                };
+
+                checkBox.Checked += (object sender, RoutedEventArgs e) => {
+                    provider.Activate();
+                };
+
+                Grid.SetColumn(checkBox, 0);
+                Grid.SetColumn(tb, 1);
+
+                Grid grid = new Grid();
+                grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(20) });
+                grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(100) });
+
+                grid.Children.Add(tb);
+                grid.Children.Add(checkBox);
+                
+                providerSettings.Items.Add(new TabItem() {
+                    Header = grid,
+                    Content = new ScrollViewer() {
+                        Content = provider.GetSettingsControl()
+                    }
+                });
+            }
         }
     }
 }

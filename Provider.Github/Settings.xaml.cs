@@ -18,11 +18,24 @@ namespace Provider.Github
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class UserControl1 : UserControl
+    public partial class Settings : UserControl
     {
-        public UserControl1()
+        protected Provider provider;
+
+        public Settings(Provider provider)
         {
             InitializeComponent();
+
+            this.provider = provider;
+            this.githubToken.Text = provider.Settings.ApiKey;
+        }
+
+        private void TestTokenButton_Click(object sender, RoutedEventArgs e) {
+            RestClient rest = new RestClient(githubToken.Text);
+
+            provider.Settings.ApiKey = githubToken.Text;
+
+            MessageBox.Show(rest.GetUser().ToString());
         }
     }
 }

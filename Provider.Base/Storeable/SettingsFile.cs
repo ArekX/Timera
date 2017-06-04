@@ -122,6 +122,7 @@ namespace Provider.Base.Storeable
 
         public virtual void Load() {
             Settings = null;
+
             Stream stream = GetFileLoadStream();
 
             if (stream == null || !HasValidHeader(stream)) {

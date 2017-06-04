@@ -1,12 +1,7 @@
 ﻿using Provider.Base.Storeable;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Security.Cryptography;
-using System.Text;
+using System.Windows.Controls;
 
 namespace Provider.Base
 {
@@ -22,11 +17,11 @@ namespace Provider.Base
 
         public abstract void Deactivate();
 
+        public abstract UserControl GetSettingsControl();
+
         public abstract List<BaseAction> GetActions();
 
         public abstract void ExecuteAction(BaseAction action);
-
-        public abstract void ExecuteActionFlow(BaseActionFlow flow);
 
         protected abstract SettingsFile GetSettingsFile(string fileName, string encryptionKey);
 

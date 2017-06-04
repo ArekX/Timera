@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Provider.Base.Storeable;
+using System.Windows.Controls;
 
 namespace Provider.Github
 {
@@ -13,8 +14,9 @@ namespace Provider.Github
         protected SettingsFile settingsFile;
 
         public Provider() {
-            settingsFile = new SettingsFile();
-            settingsFile.Settings = new ProviderSettings();
+            settingsFile = new SettingsFile() {
+                Settings = new ProviderSettings()
+            };
         }
 
         public override string Name {
@@ -25,25 +27,16 @@ namespace Provider.Github
             throw new NotImplementedException();
         }
 
-        public override void ExecuteActionFlow(BaseActionFlow flow) {
-            throw new NotImplementedException();
-        }
-
         public override List<BaseAction> GetActions() {
             throw new NotImplementedException();
         }
 
         public override void Activate() {
-            TokenForm form = new TokenForm(this);
-
-            form.Tag = this;
-
-            form.ShowDialog();
-            Debug.WriteLine("TEST!");
+            Debug.WriteLine("Github Activated!");
         }
 
         public override void Deactivate() {
-            throw new NotImplementedException();
+            Debug.WriteLine("Github Deactivated!");
         }
 
         protected override SettingsFile GetSettingsFile(string fileName, string encryptionKey) {
@@ -51,6 +44,10 @@ namespace Provider.Github
             settingsFile.EncryptionKey = encryptionKey;
 
             return settingsFile;
+        }
+
+        public override UserControl GetSettingsControl() {
+            return new Settings(this);
         }
     }
 }

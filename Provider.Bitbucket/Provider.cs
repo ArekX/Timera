@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Collections;
 using Provider.Base.Storeable;
 using System.Reflection;
+using System.Windows.Controls;
+using System.Diagnostics;
 
 namespace Provider.Bitbucket
 {
@@ -14,8 +16,9 @@ namespace Provider.Bitbucket
         protected SettingsFile settingsFile;
 
         public Provider() {
-            settingsFile = new SettingsFile();
-            settingsFile.Settings = new ProviderSettings();
+            settingsFile = new SettingsFile() {
+                Settings = new ProviderSettings()
+            };
         }
 
         public override string Name {
@@ -25,21 +28,17 @@ namespace Provider.Bitbucket
         public override void ExecuteAction(BaseAction action) {
             throw new NotImplementedException();
         }
-
-        public override void ExecuteActionFlow(BaseActionFlow flow) {
-            throw new NotImplementedException();
-        }
-
+        
         public override List<BaseAction> GetActions() {
             throw new NotImplementedException();
         }
 
         public override void Activate() {
-      
+            Debug.WriteLine("Bitbucket Activated!");
         }
 
         public override void Deactivate() {
-            throw new NotImplementedException();
+            Debug.WriteLine("Bitbucket Deactivated!");
         }
 
         protected override SettingsFile GetSettingsFile(string fileName, string encryptionKey) {
@@ -47,6 +46,10 @@ namespace Provider.Bitbucket
             settingsFile.EncryptionKey = encryptionKey;
 
             return settingsFile;
+        }
+
+        public override UserControl GetSettingsControl() {
+            return new Settings(this);
         }
     }
 }
